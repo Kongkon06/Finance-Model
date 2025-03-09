@@ -1,20 +1,25 @@
+# Use Python 3.11 as the base image
 FROM python:3.11
 
+# Set the working directory
 WORKDIR /app
 
+# Copy the application files
 COPY . .
 
-# Upgrade pip first
+# Upgrade pip
 RUN pip install --upgrade pip
 
-# Install `typing-extensions` first to avoid conflicts
+# Install typing-extensions first to prevent conflicts
 RUN pip install --no-cache-dir typing-extensions==4.5.0
 
-# Install other dependencies in a separate step
+# Install TensorFlow separately to avoid dependency conflicts
+RUN pip install --no-cache-dir tensorflow==2.13.0 
+
+# Install remaining dependencies
 RUN pip install --no-cache-dir \
     fastapi==0.103.1 \
     uvicorn==0.23.2 \
-    tensorflow==2.13.0 \
     pandas==2.0.3 \
     scikit-learn==1.3.0 \
     numpy==1.24.3 \
@@ -26,6 +31,8 @@ RUN pip install --no-cache-dir \
     matplotlib==3.7.1 \
     shap==0.44.0 
 
+# Expose FastAPI default port
 EXPOSE 8000
 
+# Set the command to run the API
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
