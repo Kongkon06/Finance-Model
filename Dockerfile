@@ -7,7 +7,10 @@ COPY . .
 # Upgrade pip first
 RUN pip install --upgrade pip
 
-# Install dependencies correctly
+# Install `typing-extensions` first to avoid conflicts
+RUN pip install --no-cache-dir typing-extensions==4.5.0
+
+# Install other dependencies in a separate step
 RUN pip install --no-cache-dir \
     fastapi==0.103.1 \
     uvicorn==0.23.2 \
@@ -21,7 +24,7 @@ RUN pip install --no-cache-dir \
     Flask==2.3.2 \
     flask-cors==3.0.10 \
     matplotlib==3.7.1 \
-    shap==0.44.0
+    shap==0.44.0 
 
 EXPOSE 8000
 
