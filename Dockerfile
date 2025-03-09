@@ -1,17 +1,19 @@
-# Use official Python image
-FROM python:3.10
+FROM python:3.11
 
-# Set working directory
 WORKDIR /app
 
-# Copy all files
-COPY . .
+COPY requirements.txt .
 
-# Install dependencies
+# Upgrade pip first
+RUN pip install --upgrade pip
+
+# Install typing-extensions first
+RUN pip install --no-cache-dir typing-extensions==4.5.0
+
+# Install all dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose the port
-EXPOSE 8000
+COPY . .
 
-# Run deploy script
-CMD ["bash", "deploy.sh"]
+EXPOSE 8000
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
