@@ -8,20 +8,20 @@ COPY . .
 RUN pip install --upgrade pip
 
 # Install dependencies manually to avoid version conflicts
-RUN pip install --no-cache-dir \
-    fastapi==0.103.1 \
-    uvicorn==0.23.2 \
-    tensorflow==2.13.0 \
-    pandas==2.0.3 \
-    scikit-learn==1.3.0 \
-    numpy==1.24.3 \
-    joblib==1.3.2 \
-    pydantic==2.4.2 \
-    python-multipart==0.0.6 \
-    Flask==2.3.2 \
-    flask-cors==3.0.10 \
-    matplotlib==3.7.1 \
-    shap==0.44.0
+RUN pip install
+    fastapi \
+    uvicorn \
+    tensorflow \
+    pandas \
+    scikit-learn \
+    numpy \
+    joblib \
+    pydantic \
+    python-multipart \
+    Flask \
+    flask-cors \
+    matplotlib \
+    shap
 
 EXPOSE 8000
 
