@@ -14,7 +14,7 @@ RUN pip install --upgrade pip
 RUN pip install --no-cache-dir typing-extensions==4.5.0
 
 # Install TensorFlow separately to avoid dependency conflicts
-RUN pip install --no-cache-dir tensorflow==2.13.0 
+RUN pip install --no-cache-dir tensorflow==2.13.0
 
 # Install remaining dependencies
 RUN pip install --no-cache-dir \
@@ -32,8 +32,13 @@ RUN pip install --no-cache-dir \
     shap==0.44.0 \
     seaborn==0.12.2  # Added Seaborn here
 
-# Expose FastAPI default port
-EXPOSE 8000
+# Run the deployment steps directly in the Dockerfile
+RUN python data_preprocessing.py && \
+    python feature_engineering.py && \
+    python automation_pipeline.py && \
+    python model_training.py && \
+    python automation_pipeline.py && \
+    python feature_model.py
 
-# Set the command to run the API
+# Start FastAPI server
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
